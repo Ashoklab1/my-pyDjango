@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+<a href="{% url 'my_posts:create' %}" class="btn btn-success mb-3">+ Create Post</a>
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <h2 class="mb-4">Latest Posts</h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for post in posts %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ post.title }}</h5>
+            <p class="card-text text-muted small">{{ post.created_at|date:"M d, Y H:i" }}</p>
+            <p class="card-text">{{ post.content|truncatewords:25 }}</p>
+          </div>
+          <div class="card-footer bg-transparent border-top-0">
+            <a href="{% url 'my_posts:edit' post.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+            <a href="{% url 'my_posts:delete' post.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>No posts available.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
